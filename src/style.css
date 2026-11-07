@@ -1,0 +1,624 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #100e08;
+  color: #f0ece4;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ff6b00; border-radius: 2px; }
+
+/* ── Animações (apenas o necessário para feedback de UX) */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Hero ───────────────────────────────────────────── */
+.hero {
+  padding: 44px 24px 28px;
+  text-align: center;
+  background: #100e08;
+  border-bottom: 1px solid #221e14;
+}
+
+.hero-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #ff6b00;
+  border-radius: 20px;
+  font-size: 40px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-brand {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #f0ece4;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-brand span {
+  color: #ff6b00;
+}
+
+.hero-sub {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6b6350;
+  margin-bottom: 16px;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.badge-orange {
+  background: rgba(255, 107, 0, 0.14);
+  color: #ff8c38;
+}
+
+.badge-green {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+}
+
+/* ── Toaster de status ──────────────────────────────── */
+.toaster {
+  margin: 12px 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: slide-up 0.2s ease;
+}
+
+.toaster-info    { background: rgba(59,130,246,0.09);  border: 1px solid rgba(59,130,246,0.2); }
+.toaster-sucesso { background: rgba(34,197,94,0.09);   border: 1px solid rgba(34,197,94,0.2); }
+.toaster-erro    { background: rgba(239,68,68,0.09);   border: 1px solid rgba(239,68,68,0.22); }
+.toaster-aviso   { background: rgba(245,158,11,0.09);  border: 1px solid rgba(245,158,11,0.22); }
+
+.toaster-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.dot-info    { background: #60a5fa; }
+.dot-sucesso { background: #4ade80; }
+.dot-erro    { background: #f87171; }
+.dot-aviso   { background: #fbbf24; }
+
+.toaster-msg {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #d4cfc6;
+}
+
+/* ── Seções ─────────────────────────────────────────── */
+.section {
+  margin: 0 16px 12px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #7d7462;
+  margin-bottom: 7px;
+  padding-left: 2px;
+}
+
+/* ── Cards ──────────────────────────────────────────── */
+.card {
+  background: #181410;
+  border: 1px solid #231f18;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-inner {
+  padding: 18px;
+}
+
+.card + .card { margin-top: 1px; }
+
+.card-perm-granted {
+  border-color: rgba(34,197,94,0.22);
+  background: #161511;
+}
+
+.card-perm-denied {
+  border-color: rgba(239,68,68,0.18);
+}
+
+/* ── Permissão header ───────────────────────────────── */
+.perm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.perm-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0ece4;
+}
+
+.perm-pill {
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.perm-granted { background: rgba(34,197,94,0.14); color: #4ade80; }
+.perm-denied  { background: rgba(239,68,68,0.14); color: #f87171; }
+.perm-prompt  { background: rgba(245,158,11,0.14); color: #fbbf24; }
+.perm-unknown { background: rgba(255,255,255,0.07); color: #9ca3af; }
+
+.perm-desc {
+  font-size: 12.5px;
+  color: #908575;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.perm-desc code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(255,107,0,0.1);
+  color: #ff8c38;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+/* ── Botões ─────────────────────────────────────────── */
+.btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  white-space: nowrap;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+/* Variantes */
+.btn-primary {
+  background: #ff6b00;
+  color: #fff;
+}
+
+.btn-ghost {
+  background: #1e1a13;
+  border: 1px solid #2c2820;
+  color: #b8b0a0;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: #242018;
+  opacity: 1;
+  border-color: #38342c;
+}
+
+.btn-danger {
+  background: #1a0d08;
+  border: 1px solid rgba(239,68,68,0.22);
+  color: #f87171;
+}
+
+.btn-danger:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(239,68,68,0.1);
+}
+
+.btn-success {
+  background: #15803d;
+  color: #fff;
+}
+
+.btn-warn {
+  background: rgba(245,158,11,0.09);
+  border: 1px solid rgba(245,158,11,0.22);
+  color: #fbbf24;
+}
+
+.btn-warn:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(245,158,11,0.15);
+}
+
+.btn-full { width: 100%; flex: none; margin-top: 10px; }
+
+.btn-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ── Disparos imediatos ─────────────────────────────── */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.action-card {
+  background: #181410;
+  border: 1px solid #231f18;
+  border-radius: 10px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease, transform 0.1s ease;
+  font-family: 'Inter', system-ui, sans-serif;
+  text-align: left;
+}
+
+.action-card:hover:not(:disabled) {
+  background: #1e1a12;
+  border-color: #2e2920;
+}
+
+.action-card:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.action-card:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.action-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.icon-red    { background: rgba(239,68,68,0.1); }
+.icon-amber  { background: rgba(245,158,11,0.1); }
+.icon-green  { background: rgba(34,197,94,0.1); }
+.icon-blue   { background: rgba(59,130,246,0.1); }
+
+.action-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f0ece4;
+  line-height: 1.3;
+}
+
+.action-card-sub {
+  font-size: 10px;
+  color: #6b6350;
+  font-weight: 500;
+}
+
+/* ── Input agendamento ──────────────────────────────── */
+.schedule-box {
+  background: #181410;
+  border: 1px solid #231f18;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.schedule-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #908575;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.time-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #100e08;
+  border: 1px solid #2c2820;
+  border-radius: 7px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.time-input-wrap:focus-within {
+  border-color: #ff6b00;
+}
+
+.time-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #ff6b00;
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s;
+  font-weight: 300;
+}
+
+.time-btn:hover { background: rgba(255,107,0,0.07); }
+
+.time-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #f0ece4;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: 'Inter', monospace;
+  text-align: center;
+  outline: none;
+  padding: 0;
+  width: 0;
+}
+
+.time-input::-webkit-inner-spin-button,
+.time-input::-webkit-outer-spin-button { display: none; }
+
+.time-unit {
+  font-size: 11px;
+  color: #6b6350;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding-right: 14px;
+  flex-shrink: 0;
+}
+
+/* Presets de tempo */
+.time-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.preset-btn {
+  padding: 5px 11px;
+  border-radius: 5px;
+  border: 1px solid #2c2820;
+  background: #1e1a13;
+  color: #8c8070;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.1s;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.preset-btn:hover {
+  border-color: #ff6b00;
+  color: #ff8c38;
+  background: rgba(255,107,0,0.07);
+}
+
+.preset-btn.active {
+  border-color: #ff6b00;
+  color: #ff8c38;
+  background: rgba(255,107,0,0.1);
+}
+
+/* ── Histórico ──────────────────────────────────────── */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #100e08;
+  border: 1px solid #1e1a13;
+  border-radius: 7px;
+  padding: 9px 11px;
+}
+
+.history-id {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: monospace;
+  color: #4ade80;
+}
+
+.history-time {
+  font-size: 11px;
+  color: #6b6350;
+}
+
+/* ── Contador de pendentes ──────────────────────────── */
+.pending-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #181410;
+  border: 1px solid #231f18;
+  border-radius: 10px;
+}
+
+.pending-num {
+  font-size: 42px;
+  font-weight: 900;
+  color: #ff6b00;
+  line-height: 1;
+  min-width: 56px;
+}
+
+.pending-num.zero { color: #2c2820; }
+
+.pending-info {}
+
+.pending-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0ece4;
+}
+
+.pending-sub {
+  font-size: 11px;
+  color: #6b6350;
+  margin-top: 2px;
+}
+
+/* ── Aviso Android 13 ───────────────────────────────── */
+.android-warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 7px;
+  background: rgba(245,158,11,0.05);
+  border: 1px solid rgba(245,158,11,0.15);
+  margin-top: 12px;
+}
+
+.android-warn-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+.android-warn-text {
+  font-size: 12px;
+  color: #9b9282;
+  line-height: 1.6;
+}
+
+.android-warn-text strong { color: #fbbf24; }
+
+/* ── Spinner ────────────────────────────────────────── */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ── Divider ────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: #1a1710;
+  margin: 4px 0;
+}
+
+/* ── Rodapé ─────────────────────────────────────────── */
+.footer {
+  padding: 20px 16px 32px;
+  text-align: center;
+  border-top: 1px solid #1a1710;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: #3d3828;
+  line-height: 1.8;
+}
+
+.footer-dot { margin: 0 6px; }
