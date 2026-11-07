@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SmashCraft</string>
+    <string name="title_activity_main">SmashCraft</string>
+    <string name="package_name">com.smashcraft.app</string>
+    <string name="custom_url_scheme">com.smashcraft.app</string>
+</resources>
